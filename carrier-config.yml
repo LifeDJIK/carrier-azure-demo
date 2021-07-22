@@ -7,8 +7,8 @@ suites: # Test suites
       project_description: Carrier Azure DevOps Demo # Project description (or application name)
       environment_name: main # Environment under testing (branch/module for SAST)
       testing_type: SAST # DAST or SAST
-      scan_type: full # full, incremental or other scan description (e.g.: qualys, authorized, etc)
-      build_id: $BUILD_ID # Build number (or some other identifier)
+      scan_type: $SCAN_TYPE # full, incremental or other scan description (e.g.: qualys, authorized, etc)
+      build_id: '0' # Build number (or some other identifier)
       sast: # Settings common to all SAST scanners
         max_concurrent_scanners: 4  # Maximum number of concurrent SAST scanners
     scanners: # Scanners config
