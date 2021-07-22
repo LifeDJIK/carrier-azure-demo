@@ -14,7 +14,7 @@ steps:
   displayName: 'Get code to scan'
 
 - bash: |
-    docker run --rm -v `pwd`:/data -e SCAN_TYPE=$(SCAN_TYPE) getcarrier/sast:2.0 run -c /data/carrier-config.yml -s sast
+    docker run --rm -v `pwd`:/data -e SCAN_TYPE=$SCAN_TYPE getcarrier/sast:2.0 run -c /data/carrier-config.yml -s sast
   env:
     SCAN_TYPE: $(sample_secret)
   displayName: 'Run SAST scanning'
