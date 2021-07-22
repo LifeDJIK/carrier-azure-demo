@@ -4,6 +4,24 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: git clone https://github.com/carrier-io/dusty.git
-- script: pwd && ls -al
-- script: docker run --rm getcarrier/sast:2.0 --help
+- displayName: 'Get configuration'
+  checkout: self
+  path: configuration
+
+- displayName: 'Get code to scan'
+  bash: |
+    mkdir code
+    git clone https://github.com/carrier-io/dusty.git code/dusty
+    git clone https://github.com/carrier-io/galloper.git code/galloper
+
+- displayName: 'Run SAST scanning'
+  bash: |
+    docker run --rm getcarrier/sast:2.0 run -c configuration/carrier-config.yml -s sast
+  env:
+    BUILD_ID: $(sample_secret)
+
+- displayName: 'Save report'
+  task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: 'sast-report.html'
+    artifactType: 'pipeline'

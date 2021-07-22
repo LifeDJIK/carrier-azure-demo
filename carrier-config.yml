@@ -1,0 +1,105 @@
+config_version: 2
+
+suites: # Test suites
+  sast:  # Example test suite
+    settings:  # Settings
+      project_name: CarrierDemo  # Project name
+      project_description: Carrier Azure DevOps Demo # Project description (or application name)
+      environment_name: main # Environment under testing (branch/module for SAST)
+      testing_type: SAST # DAST or SAST
+      scan_type: full # full, incremental or other scan description (e.g.: qualys, authorized, etc)
+      build_id: $BUILD_ID # Build number (or some other identifier)
+      sast: # Settings common to all SAST scanners
+        max_concurrent_scanners: 4  # Maximum number of concurrent SAST scanners
+    scanners: # Scanners config
+      sast:
+        bandit:  # Python SAST scanner
+          code: code  # scan target
+        # csharp: # SAST scanner
+        #   code: code  # scan target
+        dependencycheck: # Dependency-Check software composition analysis
+          comp_path: code  # scan target
+        gitleaks: # gitleaks scanning
+          code: code  # scan target
+          squash_commits: true # (optional) Make one commit with current code only
+          show_offender_line: true # (optional) Show lines with findings
+          commit_line_limit: 15 # (optional) Limit number of commit lines in one finding. Default: 15
+          redact_offenders: false # (optional) Hide secrets in lines with findings
+          hide_commit_author: false # (optional) Hide information about commits and authors
+          use_custom_rules: false # (optional) Use custom detection rules
+        # insider: # Insider: SAST engine focused on covering the OWASP Top 10
+        #   code: code  # scan target
+        #   tech: csharp # technology specification: android, ios, csharp, javascript
+        # nodejsscan: # NodeJsScan static security code scanner
+        #   code: /path/to/code  # scan target
+        #   excludes: path/to/dir/, path/to/file # (optional) Excludes. Also supports YAML list syntax
+        #   save_intermediates_to: /data/intermediates/dast # (optional) Save scan intermediates (raw results, logs, ...)
+        # npm: # npm audit
+        #   code: /path/to/code  # scan target
+        #   add_devdep: false # (optional) add dependencies from devDependencies
+        #   save_intermediates_to: /data/intermediates/dast # (optional) Save scan intermediates (raw results, logs, ...)
+        # retirejs: # JavaScript libraries scanner
+        #   code: /path/to/code  # scan target
+        #   add_devdep: false # (optional) add dependencies from devDependencies
+        #   save_intermediates_to: /data/intermediates/dast # (optional) Save scan intermediates (raw results, logs, ...)
+        # safety: # Python dependency analyzer
+        #   requirements: requirements.txt  # path to requirements.txt (string or list of strings)
+        #   save_intermediates_to: /data/intermediates/dast # (optional) Save scan intermediates (raw results, logs, ...)
+        # semgrep: # Semgrep: lightweight static analysis for many languages
+        #   code: /path/to/code  # scan target
+        #   ruleset: /path/to/ruleset.yml # scan rules
+        #   timeout: '15' # (optional) max seconds per rule
+        #   timeout_threshold: '5' # (optional) max rules that can timeout
+        #   save_intermediates_to: /data/intermediates/dast # (optional) Save scan intermediates (raw results, logs, ...)
+    processing: # Processing config
+      false_positive: # False-positive processor
+        file: configuration/false_positive.config  # File with issue hashes
+      min_severity_filter: # Filters findings below minimal severity level
+        severity: High  # Minimal severity level to report, one of: Critical, High, Medium, Low, Info
+    reporters: # Reporters config
+      # azure_devops:  # Azure DevOps REST API reporter
+      #   org: organization  # Azure DevOps organization name
+      #   project: proj # Azure DevOps Project name
+      #   pat: personalAccessToken # Azure DevOps personal Access Token
+      #   team: team # Azure DevOps Team (default: none)
+      #   issue_type: task # Azure DevOps Issue Type (default: task)
+      #   assignee: assignee # Azure DevOps Assignee for issue (default: none)
+      #   custom_fields: '{}' # Key-Value list of assignee for workitem
+      # email: # EMail reporter
+      #   server: smtp.office365.com  # SMTP server host
+      #   port: '587' # (optional) SMTP server port
+      #   login: some_username@example.com # SMTP server login
+      #   password: SomeSecurePassword # SMTP server password
+      #   mail_to: me@example.com, not_me@example.com # List of email addresses
+      #   mail_cc: me@example.com, not_me@example.com # List of CC email addresses
+      #   subject: 'My awesome project staging DAST zap scanning #1 results' # (optional) Custom email subject
+      #   body: 'The following application was scanned: My awesome project (staging)' # (optional) Custom email body first line
+      #   additional_text: '' # (optional) Custom email body additional text
+      #   attachments: /path/to/file.1, /path/to/file.2 # (optional) Additional custom attachments. Also supports YAML list syntax
+      #   text_only: false # (optional) Text-only emai (do not include information about results/errors)
+      html: # HTML reporter
+        file: sast-report.html  # HTML report path
+      # jira: # Jira reporter
+      #   url: https://jira.example.com  # Jira URL
+      #   username: some_username # Jira login
+      #   password: SomeSecurePassword # Jira password
+      #   project: SOME-PROJECT # Jira project
+      #   fields: # Fields for created tickets
+      #     Issue Type: Bug  # (field) Ticket type
+      #     Assignee: Ticket_Assignee # (field) Assignee
+      #     Epic Link: SOMEPROJECT-1234 # (field) Epic
+      #     Security Level: SOME_LEVEL # (field) Security level
+      #     Components/s: # (field) Component/s
+      #     - name: Component Name
+      #   custom_mapping: # Custom priority mapping
+      #     Critical: Very High
+      #     Major: High
+      #     Medium: Medium
+      #     Minor: Low
+      #     Trivial: Low
+      #   separate_epic_linkage: false # (optional) Link to Epics after ticket creation
+      #   max_description_size: 61908 # (optional) Cut description longer than set limit
+      # junit: # JUnit XML reporter
+      #   file: /path/to/report.xml  # XML report path
+      #   format_file_name: true # (optional) Allow to use {variables} inside file path
+      #   plain_text: false # (optional) Convert markdown to plain text
