@@ -14,6 +14,8 @@ steps:
   displayName: 'Get code to scan'
 
 - bash: |
+    pwd
+    ls -al
     docker run --rm getcarrier/sast:2.0 run -c carrier-config.yml -s sast
   env:
     BUILD_ID: $(sample_secret)
