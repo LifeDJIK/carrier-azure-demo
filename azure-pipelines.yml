@@ -2,7 +2,7 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- checkout: https://github.com/carrier-io/dusty.git
+- checkout: git://github.com/carrier-io/dusty.git
   path: code/dusty
 
 - script: pwd && ls -al
