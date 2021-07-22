@@ -53,7 +53,7 @@ suites: # Test suites
         #   save_intermediates_to: /data/intermediates/dast # (optional) Save scan intermediates (raw results, logs, ...)
     processing: # Processing config
       false_positive: # False-positive processor
-        file: configuration/false_positive.config  # File with issue hashes
+        file: false_positive.config  # File with issue hashes
       min_severity_filter: # Filters findings below minimal severity level
         severity: High  # Minimal severity level to report, one of: Critical, High, Medium, Low, Info
     reporters: # Reporters config

@@ -5,7 +5,6 @@ pool:
 
 steps:
 - checkout: self
-  path: configuration
   displayName: 'Get configuration'
 
 - bash: |
@@ -15,7 +14,7 @@ steps:
   displayName: 'Get code to scan'
 
 - bash: |
-    docker run --rm getcarrier/sast:2.0 run -c configuration/carrier-config.yml -s sast
+    docker run --rm getcarrier/sast:2.0 run -c carrier-config.yml -s sast
   env:
     BUILD_ID: $(sample_secret)
   displayName: 'Run SAST scanning'
